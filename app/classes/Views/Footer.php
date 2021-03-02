@@ -14,7 +14,7 @@ class Footer extends View
     public function generate()
     {
         $current_year = date('Y');
-        return "Copyright © $current_year Mykolas Karka, all rights reserved.";
+        return "© $current_year. Mykolas Karka, all rights reserved.";
     }
 
     public function render($template_path = ROOT . '/app/templates/footer.php')
