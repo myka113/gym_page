@@ -1,0 +1,20 @@
+{
+  "name": "mykolas/gym_page",
+  "description": "description",
+  "minimum-stability": "stable",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "Mykolas",
+      "email": "asdasd@asdasd.com"
+    }
+  ],
+  "require": {
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\": "app/classes",
+      "Core\\": "core/classes"
+    }
+  }
+}
