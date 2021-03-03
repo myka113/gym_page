@@ -66,6 +66,13 @@ function validate_contains_space(string $field_value, array &$field): bool
     return true;
 }
 
+/**
+ * Check if field does not contain space
+ *
+ * @param string $field_value
+ * @param array $field
+ * @return bool
+ */
 function validate_not_contains_space(string $field_value, array &$field): bool
 {
     if (str_word_count(trim($field_value)) < 2) {
@@ -77,7 +84,7 @@ function validate_not_contains_space(string $field_value, array &$field): bool
 }
 
 /**
- * Chef if number is within the min and max range.
+ * Check if number is within the min and max range.
  *
  * @param string $field_value
  * @param array $field
@@ -98,7 +105,14 @@ function validate_range(string $field_value, array &$field, array $params): bool
     return true;
 }
 
-
+/**
+ * Check if number of inserted symbols are within the given range
+ *
+ * @param string $field_value
+ * @param array $field
+ * @param array $params
+ * @return bool
+ */
 function validate_length(string $field_value, array &$field, array $params): bool
 {
     if (strlen($field_value) < ($params['min'] ?? 0) || strlen($field_value) > $params['max']) {
@@ -113,6 +127,13 @@ function validate_length(string $field_value, array &$field, array $params): boo
     return true;
 }
 
+/**
+ * Check if field does not contain numbers
+ *
+ * @param string $field_value
+ * @param array $field
+ * @return bool
+ */
 function validate_not_numeric(string $field_value, array &$field): bool
 {
     if (preg_match('~[0-9]~', $field_value)) {
@@ -142,25 +163,6 @@ function validate_numeric(string $field_value, array &$field): bool
     return true;
 }
 
-
-/**
- * Check if selected value is one of the possible options in options array
- *
- * @param string $field_input
- * @param array $field
- * @return bool
- */
-function validate_select(string $field_input, array &$field): bool
-{
-    if (!isset($field['options'][$field_input])) {
-        $field['error'] = 'Input doesn\'t exist';
-
-        return false;
-    }
-
-    return true;
-}
-
 /**
  * Check if provided email is in correct format
  *
@@ -175,35 +177,6 @@ function validate_email(string $field_value, array &$field): bool
 
         return false;
     }
-
-    return true;
-}
-
-/**
- * Check if input is valid URL
- *
- * @param string $field_value
- * @param array $field
- * @return bool
- */
-function validate_url(string $field_value, array &$field): bool
-{
-    if (!filter_var($field_value, FILTER_VALIDATE_URL)) {
-        $field['error'] = 'Input is not a valid URL';
-
-        return false;
-    };
-
-    return true;
-}
-
-function validate_phone(string $field_value, array &$field): bool
-{
-    if (strlen($field_value) !== 9) {
-        $field['error'] = 'Field must contain 9 symbols';
-
-        return false;
-    };
 
     return true;
 }

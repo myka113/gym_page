@@ -2,12 +2,8 @@
 
 namespace App\Controllers\Common;
 
-use App\App;
 use App\Views\BasePage;
-use App\Views\Forms\Admin\Pizza\PizzaCreateForm;
-use App\Views\Forms\Admin\Pizza\PizzaUpdateForm;
 use Core\View;
-use Core\Views\Link;
 
 class HomeController
 {
@@ -28,7 +24,7 @@ class HomeController
     public function __construct()
     {
         $this->page = new BasePage([
-            'title' => 'Home | gym',
+            'title' => 'Home | Golden gym',
         ]);
     }
 

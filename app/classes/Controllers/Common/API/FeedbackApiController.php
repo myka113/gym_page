@@ -8,7 +8,11 @@ use Core\Api\Response;
 
 class FeedbackApiController
 {
-
+    /**
+     * Get json-encoded API response when generating feedback (comments) table in feedback page
+     *
+     * @return string
+     */
     public function index(): string
     {
         // This is a helper class to make sure
@@ -21,8 +25,8 @@ class FeedbackApiController
             $comment = [
                 'id' => $comment_id,
                 'name' => App::$db->getRowById('users', $comment['user_id'])['name'],
-                'date' => date("Y-m-d", $comment['timestamp']),
                 'comment' => $comment['comment'],
+                'date' => date("Y-m-d", $comment['timestamp']),
             ];
         }
 
@@ -33,6 +37,11 @@ class FeedbackApiController
         return $response->toJson();
     }
 
+    /**
+     * Get json-encoded API response when creating feedback (comment) in feedback page
+     *
+     * @return string
+     */
     public function create(): string
     {
         // This is a helper class to make sure
@@ -41,13 +50,15 @@ class FeedbackApiController
         $form = new FeedbackCreateForm();
 
         if ($form->validate()) {
-            $comment = [
-                'user_id' => App::$db->getRowIdWhere('users', ['email' => App::$session->getUser()['email']]),
-                'timestamp' => time(),
-                'comment' => $form->value('text'),
-            ];
+            $comment['name'] = App::$session->getUser()['name'];
+            $comment['comment'] = $form->value('text');
+            $comment['timestamp'] = date("Y-m-d", time());
 
-            App::$db->insertRow('comments', $comment);
+            $comment['id'] = App::$db->insertRow('comments', [
+                'user_id' => App::$db->getRowIdWhere('users', ['email' => App::$session->getUser()['email']]),
+                'comment' => $comment['comment'],
+                'timestamp' => time(),
+            ]);
 
             $response->setData($comment);
         } else {

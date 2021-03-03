@@ -4,7 +4,7 @@ use App\App;
 
 /**
  *
- * Checks if user(data) already exists in our saved file.
+ * Checks if user(data) already exists in DB file.
  *
  * If there is no such data(user) returns true.
  * If the data already exist in file, writes an error and returns false.
@@ -24,6 +24,13 @@ function validate_user_unique(string $field_input, array &$field): bool
     return true;
 }
 
+/**
+ * Checks if user exists based on entered email
+ *
+ * @param string $field_input
+ * @param array $field
+ * @return bool
+ */
 function validate_user_exists(string $field_input, array &$field): bool
 {
     if (!App::$db->getRowWhere('users', ['email' => $field_input])) {
@@ -37,7 +44,7 @@ function validate_user_exists(string $field_input, array &$field): bool
 
 /**
  *
- *Checks if there is such email and password in the database.
+ * Checks if there is such email and password in the database.
  *
  * If there is such user and password is the same as in database returns true.
  * If email or password of $filtered_input are not in the database(or not the same),
@@ -61,13 +68,21 @@ function validate_login(array $filtered_input, array &$form): bool
     return false;
 }
 
-function validate_row_exists(string $field_input, array &$field): bool
+/**
+ * Check if user is logged in
+ *
+ * @param array $filtered_input
+ * @param array $field
+ * @return bool
+ */
+function validate_logged_in_user(string $field_input, array &$field): bool
 {
-    if (App::$db->rowExists('pizzas', $field_input)) {
-        return true;
+    if (!App::$session->getUser()) {
+        $field['error'] = 'User is not logged in';
+
+        return false;
     }
 
-    $field['error'] = 'Row exists';
+    return true;
 
-    return false;
 }
